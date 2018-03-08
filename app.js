@@ -3,13 +3,16 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const app = express();
 
+//internal
 const productRoutes = require('./api/routes/products')
 const orderRoutes = require('./api/routes/orders')
 
+//logging(morgan) end request body parsing both handling url encoded and json.
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
+//header management for CORS
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
@@ -22,9 +25,11 @@ app.use((req, res, next) => {
     next();
 })
 
+//routes
 app.use('/products',productRoutes);
 app.use('/orders',orderRoutes);
 
+//error handling
 app.use((req, res, next) => {
     const error = new Error('Error!!');
     error.status = 404;
