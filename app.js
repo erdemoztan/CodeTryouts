@@ -2,10 +2,12 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const express = require('express');
 const app = express();
+const mongoose = require('mongoose');
 
 //internal
-const productRoutes = require('./api/routes/products')
-const orderRoutes = require('./api/routes/orders')
+const productRoutes = require('./api/routes/products');
+const orderRoutes = require('./api/routes/orders');
+mongoose.connect('mongodb+srv://erdem:'+ process.env.DBPW +'@cluster0-beies.mongodb.net/test')
 
 //logging(morgan) end request body parsing both handling url encoded and json.
 app.use(morgan('dev'));
