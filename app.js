@@ -7,8 +7,11 @@ const mongoose = require('mongoose');
 //internal
 const productRoutes = require('./api/routes/products');
 const orderRoutes = require('./api/routes/orders');
+const userRoutes = require('./api/routes/users')
+
+//db connection
 mongoose.connect('mongodb://localhost/Sales')
-//mongodb+srv://erdem:<PASSWORD>@cluster0-beies.mongodb.net/test
+//mongoose.connect('mongodb+srv:erdem:9622978@cluster0-beies.mongodb.net/test')
 //logging(morgan) end request body parsing both handling url encoded and json.
 app.use(morgan('dev'));
 app.use('/uploads', express.static('uploads'))
@@ -31,6 +34,7 @@ app.use((req, res, next) => {
 //routes
 app.use('/products',productRoutes);
 app.use('/orders',orderRoutes);
+app.use('/users', userRoutes)
 
 //error handling
 app.use((req, res, next) => {
@@ -39,6 +43,7 @@ app.use((req, res, next) => {
     next(error);
 })
 
+//main error handling to catch every exception.
 app.use((error, req, res, next) => {
     res.status(error.status || 500);
     res.json({

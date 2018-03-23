@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const Order = require('../models/order');
 const Product = require('../models/product')
 
-
+//get all method returns an empty error if no entity exists.
 router.get('/', (req, res, next) => {
     Order.find()
         .select('_id product quantity')
@@ -33,6 +33,7 @@ router.get('/', (req, res, next) => {
         })
 })
 
+//insert an order entity, related product should exists in database. 
 router.post('/', (req, res, next) => {
     Product.findById(req.body.productId)
     .then(result => {
@@ -74,6 +75,7 @@ router.post('/', (req, res, next) => {
     })
 });
 
+//gets an entity with the given id, if entity does not exists it returns a 404 instead
 router.get('/:id', (req, res, next) => {
     const id = req.params.id;
     console.log(id);
@@ -101,6 +103,7 @@ router.get('/:id', (req, res, next) => {
         });
 });
 
+//deletes the given entity
 router.delete('/:id', (req, res, next) => {
     const id = req.params.id;
     Order.remove({_id : id})

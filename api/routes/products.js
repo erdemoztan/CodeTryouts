@@ -3,6 +3,7 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const multer = require('multer');
 
+//configures file storage
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, './uploads/')
@@ -12,6 +13,7 @@ const storage = multer.diskStorage({
     }
 })
 
+//sets filter to upload specific file types only.
 const fileFilter = (req, file, cb) => {
     if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
         // accept a file
@@ -23,6 +25,7 @@ const fileFilter = (req, file, cb) => {
     }
 }
 
+//configures the multer library according to given filter and storage also sets the maz file size to 1MB
 const upload = multer({
     storage: storage,
     limits: {
@@ -33,6 +36,7 @@ const upload = multer({
 
 const Product = require('../models/product');
 
+//
 router.get('/', (req, res, next) => {
     Product.find()
         .select('name price _id, productImage')
